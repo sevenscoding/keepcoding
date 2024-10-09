@@ -9,6 +9,13 @@ export const FILTER_NAMES = {
         { label: 'Расторгнут', value: 'terminated' },
     ],
     SORT_BY: [
-        { label: 'Дате (по возрастанию)', value: 'created_at' }
+        { label: 'Дате', value: 'created_at' }
     ],
 };
+
+export const FILTER_LABEL_TITLES = {
+    TYPE: 'Тип документа',
+    STATUS: 'Статус',
+    SORT_BY: 'Сортировать по',
+    ADD_DOCUMENT: 'Добавить документ'
+}
