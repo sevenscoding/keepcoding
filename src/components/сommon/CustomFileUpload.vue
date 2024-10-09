@@ -2,7 +2,11 @@
 <template>
   <div class="custom-file-upload">
     <label class="upload-label">
-      <span>{{ label }}</span>
+      <IconPlus class="custom-file-upload__plus"/>
+      <span class="custom-file-upload__download">{{ label }}</span>
+      <span class="custom-file-upload__choose">
+          <span class="underline">Выберите файл</span> или перетащите его сюда
+      </span>
       <input type="file" @change="handleFileUpload" />
     </label>
     <p v-if="fileName" class="file-name">Загружен файл: {{ fileName }}</p>
@@ -11,6 +15,7 @@
 
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue'
+import IconPlus from "@icons/IconPlus.vue";
 
 const props = defineProps({
   label: {
@@ -32,16 +37,35 @@ const handleFileUpload = (event) => {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .custom-file-upload {
-  border: 1px dashed #d9d9d9;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
+  border-radius: 10px;
+  height: 157px;
+  box-shadow: 0 4px 4px 0 #00000040;
+  border: 1px solid var(--color-light-grey);
+  background-color: var(--color-grey);
+  padding-top: 26px;
+
+  &__choose {
+    color: var(--color-dark-grey);
+    margin-top: var(--indent-small);
+  }
+
+  &__plus {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 20px;
+    color: var(--color-dark-grey);
+  }
+}
+
+.underline {
+  text-decoration: underline;
 }
 
 .upload-label {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;

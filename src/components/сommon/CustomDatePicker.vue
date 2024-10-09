@@ -1,11 +1,11 @@
-<!-- components/common/CustomDatePicker.vue -->
 <template>
   <div class="custom-datepicker">
-    <!-- Используем :value вместо v-model -->
     <input
         type="date"
+        ref="datePickerRef"
         :value="modelValue"
-        @change="updateValue($event.target.value)"
+        @input="updateValue($event.target.value)"
+        class="date-input"
     />
   </div>
 </template>
@@ -14,28 +14,41 @@
 import { defineProps, defineEmits } from 'vue'
 
 const props = defineProps({
-  modelValue: String, // Значение даты в формате YYYY-MM-DD
+  modelValue: String,
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-// Обновляем значение и эмитим событие на родительский компонент
 const updateValue = (value) => {
   emit('update:modelValue', value)
 }
 </script>
 
 <style scoped>
-.custom-datepicker input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  font-size: 14px;
+.custom-datepicker {
+  position: relative;
+  display: inline-block;
+  width: 150px;
 }
 
-.custom-datepicker input:focus {
-  border-color: #40a9ff;
-  outline: none;
+.date-input {
+  width: 112px;
+  border-radius: 4px;
+  font-size: var(--font-size-base);
+  color: var(--color-light-grey);
+  background-color: var(--color-white);
+  cursor: pointer;
+  transition: border-color 0.3s;
+  border: none;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  color: var(--color-dark-grey);
+  opacity: 0.6;
+}
+
+.date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 </style>

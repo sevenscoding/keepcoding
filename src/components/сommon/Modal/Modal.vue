@@ -56,7 +56,6 @@ watch(
       visible.value = newVal
     }
 )
-
 </script>
 
 <style lang="scss" scoped>
@@ -65,12 +64,13 @@ watch(
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   background-color: rgba(122, 137, 150, 0.7);
   display: flex;
   justify-content: center;
   z-index: 1000;
   padding-top: 48px;
+  padding-bottom: 200px;
 }
 
 .modal {
