@@ -1,5 +1,21 @@
-# Vue 3 + Vite
+🚀 Keepcoding: Test Project
+📋 Description
+This project is a demonstration of a simple application built using modern frontend technologies. It showcases integration with a backend database, state management, and interaction with external services.
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+🛠️ Technologies
+The following technologies were used in this project:
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+🌟 Vue 3 – A progressive JavaScript framework for building user interfaces.
+🗃️ Pinia – A lightweight state management library for Vue.
+🧩 Supabase – An open-source backend-as-a-service for databases, authentication, and storage.
+⚙️ Installation and Setup
+
+Install dependencies:
+
+bash
+Копировать код
+npm install
+
+📂 Additional Information
+📄 Image Handling: Only the format of uploaded images is stored as a string. The actual image files are not saved or stored in the database, ensuring lightweight data handling.
+🔄 Contract Status Management: The status of each contract is directly updated and managed within Supabase, providing consistent synchronization with the backend.
