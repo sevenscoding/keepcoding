@@ -4,7 +4,7 @@
       <template #value>
         <CustomSelect
             :options="documentTypes"
-            v-model:selected="documentStore.filters.document_type"
+            v-model:selected="documentStore.filters.type"
         />
       </template>
     </InfoBlock>
@@ -20,7 +20,7 @@
       <template #value>
         <CustomSelect
             :options="sortOptions"
-            v-model:selected="documentStore.filters.created_at"
+            v-model:selected="documentStore.filters.startDate"
         />
       </template>
     </InfoBlock>

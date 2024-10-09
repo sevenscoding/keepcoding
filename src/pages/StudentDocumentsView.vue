@@ -7,8 +7,11 @@
     <Modal v-model:modelValue="modal" :title="MODALS_TITLE.DOCUMENT" @close="documentStore.closeModal">
       <DocumentForm />
       <template #footer>
-          <ButtonComponent :disabled="documentStore.isDocumentAddDisabled" label="добавить документ"></ButtonComponent>
-          <ButtonComponent label="отмена" color="grey" @click="documentStore.closeModal"></ButtonComponent>
+          <ButtonComponent
+              label="добавить документ"
+              @click="documentStore.addDocument()"
+          />
+          <ButtonComponent label="отмена" color="grey" @click="documentStore.closeModal" />
       </template>
     </Modal>
   </div>

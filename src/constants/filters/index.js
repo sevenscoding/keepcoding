@@ -9,7 +9,7 @@ export const FILTER_NAMES = {
         { label: 'Расторгнут', value: 'terminated' },
     ],
     SORT_BY: [
-        { label: 'Дате', value: 'created_at' }
+        { label: 'Дате', value: 'startDate' }
     ],
 };
 

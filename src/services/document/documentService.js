@@ -7,8 +7,7 @@ export async function getDocuments(filters = {}) {
     Object.entries(filters).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== '') {
 
-            if (key === 'created_at') {
-                console.log(key, 'keykeykeykeykeykey')
+            if (key === 'startDate') {
                 query = query.order(value, { ascending: true });
             }
 
@@ -29,6 +28,16 @@ export async function getDocuments(filters = {}) {
         return [];
     }
     return data;
+}
+
+export async function checkElementExistsById(id) {
+    const { data, error } = await supabase
+        .from('documents')
+        .select('id')
+        .eq('id', id)
+        .single()
+
+    return data && !error;
 }
 
 

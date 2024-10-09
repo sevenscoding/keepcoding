@@ -14,12 +14,13 @@ const formattedTo = computed(() => props.to)
   <div class="date-range">
     <div v-if="formattedFrom" class="date-range__from">{{ formattedFrom }}</div>
     <span v-if="formattedTo"> - </span>
-    <div v-if="formattedFrom && formattedTo" class="date-range__to">{{ formattedTo }}</div>
+    <div v-if="formattedTo" class="date-range__to">{{ formattedTo }}</div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .date-range {
+  height: 21px;
   display: flex;
   align-items: center;
   font-size: var(--font-size-base);

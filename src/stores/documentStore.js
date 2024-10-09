@@ -1,5 +1,12 @@
 import { defineStore } from 'pinia'
-import { createDocument, deleteDocument, getDocuments, updateDocument } from '@/services/document/documentService'
+import {
+    checkElementExistsById,
+    createDocument,
+    deleteDocument,
+    getDocuments,
+    updateDocument,
+} from '@/services/document/documentService'
+import { filterDocumentFields, getFileFormat } from "@/helpers/";
 
 export const useDocumentStore = defineStore('documentStore', {
     state: () => ({
@@ -7,16 +14,16 @@ export const useDocumentStore = defineStore('documentStore', {
         isLoading: false,
         error: null,
         filters: {
-            document_type: '',
+            type: '',
             status: '',
-            created_at: '',
+            startDate: '',
         },
         formData: {
-            type: '',
+            type: null,
             name: '',
             number: '',
-            startDate: '',
-            endDate: '',
+            startDate: null,
+            endDate: null,
             notify: false,
             createTask: false,
             file: null,
@@ -46,7 +53,12 @@ export const useDocumentStore = defineStore('documentStore', {
             this.isLoading = true
             this.error = null
             try {
-                this.documents = await getDocuments(this.filters)
+                const params = {
+                    type: this.filters.type,
+                    status: this.filters.status,
+                    startDate: this.filters.startDate,
+                }
+                this.documents = await getDocuments(params)
             } catch (error) {
                 this.error = error.message
             } finally {
@@ -58,38 +70,47 @@ export const useDocumentStore = defineStore('documentStore', {
             this.filters[key] = value
         },
 
-        resetFilters() {
-            this.filters = {
-                document_type: '',
-                status: '',
-                created_at: '',
-            }
+        setForm(form) {
+            this.toggleModal(true)
+            this.formData = { ...form };
         },
 
         resetForm() {
             this.formData = {
-                type: 'contract',
+                type: null,
                 name: '',
                 number: '',
-                startDate: '',
-                endDate: '',
+                startDate: null,
+                endDate: null,
                 notify: false,
                 createTask: false,
                 file: null,
             }
         },
 
-        async addDocument(document) {
+        async addDocument() {
             this.isLoading = true
             this.error = null
             try {
-                const newDocument = await createDocument(document)
-                this.documents.push(newDocument[0])
-                this.resetForm()
+                const isEditDocument = await checkElementExistsById(this.formData?.id)
+                const formatedData = filterDocumentFields(this.formData)
+                const data = {
+                    ...formatedData,
+                    file: getFileFormat(this.formData.file),
+                }
+
+               if (isEditDocument) {
+                    await this.updateExistingDocument(this.formData?.id, data)
+                } else {
+                    await createDocument(data)
+                }
             } catch (error) {
                 this.error = error.message
             } finally {
                 this.isLoading = false
+                this.resetForm()
+                this.closeModal()
+                await this.fetchDocuments()
             }
         },
 
@@ -97,11 +118,7 @@ export const useDocumentStore = defineStore('documentStore', {
             this.isLoading = true
             this.error = null
             try {
-                const updatedDocument = await updateDocument(id, updatedData)
-                const index = this.documents.findIndex((doc) => doc.id === id)
-                if (index !== -1) {
-                    this.documents[index] = { ...this.documents[index], ...updatedDocument[0] }
-                }
+                await updateDocument(id, updatedData)
             } catch (error) {
                 this.error = error.message
             } finally {
@@ -114,17 +131,11 @@ export const useDocumentStore = defineStore('documentStore', {
             this.error = null
             try {
                 await deleteDocument(id)
-                this.documents = this.documents.filter((doc) => doc.id !== id)
             } catch (error) {
                 this.error = error.message
             } finally {
+                await this.fetchDocuments()
                 this.isLoading = false
-            }
-        },
-
-        updateFormField(key, value) {
-            if (Object.hasOwnProperty.call(this.formData, key)) {
-                this.formData[key] = value
             }
         },
     },

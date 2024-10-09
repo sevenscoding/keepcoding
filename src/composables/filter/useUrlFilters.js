@@ -7,17 +7,17 @@ export const useUrlFilters = () => {
     const syncFiltersWithURL = () => {
         const params = new URLSearchParams(window.location.search)
 
-        documentStore.filters.document_type = params.get('document_type') || ''
+        documentStore.filters.type = params.get('type') || ''
         documentStore.filters.status = params.get('status') || ''
-        documentStore.filters.created_at = params.get('created_at') || ''
+        documentStore.filters.startDate = params.get('startDate') || ''
     }
 
     const updateURL = () => {
         const params = new URLSearchParams()
 
-        if (documentStore.filters.document_type) params.set('document_type', documentStore.filters.document_type)
+        if (documentStore.filters.type) params.set('type', documentStore.filters.type)
         if (documentStore.filters.status) params.set('status', documentStore.filters.status)
-        if (documentStore.filters.created_at) params.set('created_at', documentStore.filters.created_at)
+        if (documentStore.filters.startDate) params.set('startDate', documentStore.filters.startDate)
 
         const newUrl = params.toString() ? `${window.location.pathname}?${params.toString()}` : window.location.pathname
         window.history.replaceState({}, '', newUrl)

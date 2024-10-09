@@ -1,4 +1,6 @@
 <script setup>
+import { useDocumentStore } from '@/stores/documentStore';
+import { setStatusText } from '@/helpers'
 import BaseCard from "@components/сommon/BaseCard.vue";
 import StatusBlock from "@components/сommon/StatusBlock.vue";
 import DateRangeBlock from "@components/сommon/DateRangeBlock.vue";
@@ -8,7 +10,8 @@ import IconButton from "@components/сommon/IconButton.vue";
 import IconRemove from "@icons/IconRemove.vue";
 import IconPrint from "@icons/IconPrint.vue";
 import FileTypeIcon from "@components/сommon/FileTypeIcon.vue";
-import { setStatusText } from '@/helpers'
+
+const documentStore = useDocumentStore();
 
 defineProps({
   document: {
@@ -16,29 +19,33 @@ defineProps({
     required: false
   }
 });
+
+const printDocument = () => {
+  window.print();
+}
 </script>
 
 <template>
   <BaseCard>
     <div class="document-card">
       <div class="document-card__info">
-        <h2 class="document-card__title"> {{ document?.document_type }} №{{ document?.id }} </h2>
+        <h2 class="document-card__title"> {{ document?.name }} №{{ document?.number }} </h2>
         <StatusBlock :status="document?.status" :text="setStatusText(document?.status)" />
-        <DateRangeBlock :from="document?.created_at"  :to="document?.created_to"/>
+        <DateRangeBlock :from="document?.startDate"  :to="document?.endDate"/>
         <ActionPanel class="document-card__actions">
           <IconButton>
-            <IconPrint />
+            <IconPrint @click="printDocument" />
           </IconButton>
           <IconButton>
-            <IconEdit />
+            <IconEdit @click="documentStore.setForm(document)"/>
           </IconButton>
           <IconButton>
-            <IconRemove />
+            <IconRemove @click="documentStore.removeDocument(document?.id)" />
           </IconButton>
         </ActionPanel>
       </div>
       <div class="document-card__img">
-        <FileTypeIcon :type="document?.file_format" />
+        <FileTypeIcon :type="document?.file" />
       </div>
     </div>
   </BaseCard>
@@ -47,6 +54,13 @@ defineProps({
 <style scoped lang="scss">
 .document-card {
   display: flex;
+
+  &__title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 200px;
+  }
 
   &__img {
     margin-left: auto;
